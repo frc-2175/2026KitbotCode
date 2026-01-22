@@ -12,17 +12,32 @@ class myRobot(wpilib.TimedRobot):
 
     def teleopPeriodic(self):
         #Drive
-        driveSpeed = -self.leftJoystick.getRawAxis(1)
-        steerSpeed = -self.rightJoystick.getRawAxis(0)
+        driveSpeed = -0.5 * self.leftJoystick.getRawAxis(1)
+        steerSpeed = -0.75 * self.rightJoystick.getRawAxis(0)
         self.drivetrain.drive(driveSpeed, steerSpeed)
 
-        #Intake
-        intakeSpeed = -self.gamepad.getRawAxis(1)
+       #Intake and Flywheel
+            #Left Button
+        if self.gamepad.getRawButton(5):
+            intakeSpeed = 0.3
+            #Right Button
+        elif self.gamepad.getRawButton(6):
+            intakeSpeed = 0.8
+        else:
+            intakeSpeed = 0
+
         self.intakeandshooter.setIntakeSpeed(intakeSpeed)
 
-        #Shooter
-        shooterSpeed = -self.gamepad.getRawAxis(5)
-        self.intakeandshooter.setShooterSpeed(shooterSpeed)
+        #Middlebar
+            #Left Button
+        if self.gamepad.getRawButton(5):
+            middleBarSpeed = -0.7
+            #Right Button
+        elif self.gamepad.getRawButton(6):
+            middleBarSpeed = 0.5
+        else:
+            middleBarSpeed = 0
+        self.intakeandshooter.setShooterSpeed(middleBarSpeed)
 
     def disabledInit(self):
         self.drivetrain.drive(0, 0)
